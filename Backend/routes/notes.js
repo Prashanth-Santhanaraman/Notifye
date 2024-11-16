@@ -6,9 +6,10 @@ const {
   newNote,
   updateNote,
   deleteNote,
+  particularUserNotes
 } = require("../controllers/notesController");
 
-router.get("/", getNotes);
+router.get("/", particularUserNotes);
 
 router.get("/:id", getNote);
 

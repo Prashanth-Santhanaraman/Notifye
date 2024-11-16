@@ -1,5 +1,16 @@
 const mongoose = require("mongoose")
 
+const noteSchema = new mongoose.Schema({
+    title:{
+        type: String,
+        required:true
+    },
+    description:{
+        type: String,
+        required: true
+    }
+},{timestamps:true})
+
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -15,7 +26,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     notes:{
-        type:Array,
+        type:[noteSchema],
         default: []
     }
 })

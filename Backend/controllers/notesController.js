@@ -1,13 +1,30 @@
 const notesModel = require("../models/notesModel");
+const userModel = require("../models/userModel");
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 // to get all notes
-const getNotes = async (req, res) => {
-  try {
-    const allNotes = await notesModel.find({});
-    res.status(200).json(allNotes);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+// const getNotes = async (req, res) => {
+//   try {
+//     const allNotes = await notesModel.find({});
+//     res.status(200).json(allNotes);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// };
+
+//To get particular User Notes
+
+const particularUserNotes = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) {
+    return res.status(400).json({ message: "Token is missing !" });
   }
+  const decodedInfo = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decodedInfo.id;
+  const allNotes = await userModel.findById(userId);
+  console.log(decodedInfo);
+  console.log(allNotes);
+  res.status(200).json(decodedInfo);
 };
 
 //to get particular note by using ID
@@ -79,4 +96,11 @@ const deleteNote = async (req, res) => {
   // res.json({ message: "Got the Delete request" });
 };
 
-module.exports = { getNotes, getNote, newNote, updateNote, deleteNote };
+module.exports = {
+
+  getNote,
+  newNote,
+  updateNote,
+  deleteNote,
+  particularUserNotes,
+};
