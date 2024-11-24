@@ -96,20 +96,41 @@ const updateNote = async (req, res) => {
 
 //to delete a note
 const deleteNote = async (req, res) => {
-  const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ message: "No such note" });
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) {
+    return res.status(400).json({ message: "Token is missing !" });
   }
+  try {
+    const decodedInfo = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedInfo.id;
+    const { id } = req.params;
+    const allNotes = await userModel.findById(userId).populate("notes");
 
-  const note = await notesModel.findByIdAndDelete({ _id: id });
+    const noteExists = allNotes.notes.some(noteId => noteId._id.toString() === id)
+    if (!noteExists){
+      return res.status(400).json({message:"Note not found or trying to delete other users notes"})
+    }
+    
+    const userDetails = await userModel.findByIdAndUpdate(
+      userId,
+      {$pull: {notes: id}},
+      {new: true}
+    )
+    if(!userDetails) {
+      console.log('User not found');
+    }
+    const deleteNote = await notesModel.findByIdAndDelete(id)
+    if(!deleteNote){
+      console.log("Note not found or already deleted")
+      return res.status(400).json({message: "Note not found"})
+    }
 
-  if (!note) {
-    res.status(400).json({ message: "No such note to delete" });
+    return res.status(200).json(deleteNote)
+  }catch(err){
+    console.error(err)
+    res.status(400).json({message:"Error in deleting the note !"})
   }
-
-  res.status(200).json(note);
-  // res.json({ message: "Got the Delete request" });
 };
 
 module.exports = {
