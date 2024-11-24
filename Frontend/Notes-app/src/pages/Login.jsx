@@ -4,34 +4,37 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [userDetail, setUserDetail] = useState({})
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userDetail, setUserDetail] = useState({});
+  const [showPassword,setShowPassword] = useState(false)
+  const navigate = useNavigate();
   //Handling Login
   const handleLogin = (e) => {
-    e.preventDefault()
-    if(email.trim() === "" || password.trim() === ""){
-      console.log("Email or Password is missing")
-
+    e.preventDefault();
+    if (email.trim() === "" || password.trim() === "") {
+      console.log("Email or Password is missing");
     }
     axios
-    .post("http://localhost:5000/api/auth/login", {
-      email: email,
-      password: password,
-    })
-    .then((response) => {
-      console.log("Login successful", response.data);
-      localStorage.setItem("token", response.data.token);
-      navigate("/home")
-    })
-    .catch((error) => {
-      // Handle error
-      console.error("Error during login", error.response ? error.response.data : error.message);
-    });
+      .post("http://localhost:5000/api/auth/login", {
+        email: email,
+        password: password,
+      })
+      .then((response) => {
+        console.log("Login successful", response.data);
+        localStorage.setItem("token", response.data.token);
+        navigate("/home");
+      })
+      .catch((error) => {
+        // Handle error
+        console.error(
+          "Error during login",
+          error.response ? error.response.data : error.message
+        );
+      });
 
-      console.log(userDetail)
-  }
+    console.log(userDetail);
+  };
 
   return (
     <>
@@ -56,14 +59,22 @@ export default function Login() {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="password"
+                type={!showPassword?"password":"text"}
                 placeholder="Enter your password"
                 className="input input-bordered w-full"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <label className="label cursor-pointer">
+                <input type="checkbox" className="checkbox checkbox-sm" onChange={() => setShowPassword(!showPassword)} />
+                <span className="label ml-0">Show Password</span>
+              </label>
             </div>
-            <button type="submit" className="btn btn-neutral w-full" onClick={handleLogin}>
+            <button
+              type="submit"
+              className="btn btn-neutral w-full"
+              onClick={handleLogin}
+            >
               Login
             </button>
           </form>

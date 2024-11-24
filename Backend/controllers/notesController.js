@@ -19,12 +19,17 @@ const particularUserNotes = async (req, res) => {
   if (!token) {
     return res.status(400).json({ message: "Token is missing !" });
   }
-  const decodedInfo = jwt.verify(token, process.env.JWT_SECRET);
-  const userId = decodedInfo.id;
-  const allNotes = await userModel.findById(userId);
-  console.log(decodedInfo);
-  console.log(allNotes);
-  res.status(200).json(decodedInfo);
+  try {
+    const decodedInfo = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodedInfo.id;
+    const allNotes = await userModel.findById(userId).populate("notes");
+    // console.log(decodedInfo);
+    console.log(allNotes);
+    res.status(200).json({notes: allNotes.notes});
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({message:"Failed to fetch the notes"})
+  }
 };
 
 //to get particular note by using ID
@@ -45,10 +50,21 @@ const getNote = async (req, res) => {
 // to post a note
 const newNote = async (req, res) => {
   const { title, description } = req.body;
+  const token = req.headers["authorization"]?.split(" ")[1];
+  if (!token) {
+    return res.status(400).json({ message: "Token is missing !" });
+  }
+  const decodedInfo = jwt.verify(token, process.env.JWT_SECRET);
   try {
+    const user = await userModel.findById(decodedInfo.id);
     const newNote = await notesModel.create({ title, description });
+
+    user.notes.push(newNote._id);
+    await user.save();
+
     res.status(200).json(newNote);
   } catch (error) {
+    console.error(error);
     res.status(400).json({ message: "Can not create new note" });
   }
 
@@ -97,7 +113,6 @@ const deleteNote = async (req, res) => {
 };
 
 module.exports = {
-
   getNote,
   newNote,
   updateNote,

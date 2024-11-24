@@ -16,7 +16,7 @@ export default function Navbar({}) {
     e.preventDefault();
     localStorage.removeItem("token");
     setIsLoggedIn(false);
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -30,7 +30,7 @@ export default function Navbar({}) {
             {!isLoggedIn ? (
               <>
                 <li>
-                  <a href="/login" className="btn btn-ghost">
+                  <a href="/" className="btn btn-ghost">
                     Login
                   </a>
                 </li>
@@ -42,7 +42,7 @@ export default function Navbar({}) {
               </>
             ) : (
               <>
-                <h1 className="btn btn-ghost">Username</h1>
+                
                 <li>
                   <button onClick={handleLogout} className="btn btn-ghost">
                     Logout

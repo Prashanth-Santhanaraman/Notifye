@@ -8,7 +8,8 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [toastMessage,setToastMessage] = useState("")
+  const [showPassword,setShowPassword] = useState(false)
+  const [toastMessage, setToastMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
@@ -28,13 +29,15 @@ export default function Signup() {
         setIsSuccess(true);
         setIsError(false);
         setTimeout(() => {
-            navigate("/login"); // Replace "/new-page" with your target route
-          }, 5000);
+          navigate("/login"); // Replace "/new-page" with your target route
+        }, 5000);
         // navigate("/login");
       })
       .catch((err) => {
         console.error(err);
-        setToastMessage(err.response ? err.response.data : "Error during signup");
+        setToastMessage(
+          err.response ? err.response.data : "Error during signup"
+        );
         setIsSuccess(false);
         setIsError(true);
       });
@@ -74,12 +77,20 @@ export default function Signup() {
                 <span className="label-text">Password</span>
               </label>
               <input
-                type="password"
+                type={!showPassword?"password":"text"}
                 placeholder="Enter your password"
                 className="input input-bordered w-full"
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <label className="label cursor-pointer flex items-center">
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-sm"
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <span className="">Show Password</span>
+              </label>
             </div>
             <button
               type="submit"
@@ -89,14 +100,13 @@ export default function Signup() {
               Sign Up
             </button>
           </form>
-
         </div>
       </div>
       {toastMessage && (
-        <div
-          className={`toast toast-top toast-center`}
-        >
-          <div className={`alert ${isSuccess ? "alert-success" : "alert-error"}`}>
+        <div className={`toast toast-top toast-center`}>
+          <div
+            className={`alert ${isSuccess ? "alert-success" : "alert-error"}`}
+          >
             <span>{toastMessage}</span>
           </div>
         </div>
