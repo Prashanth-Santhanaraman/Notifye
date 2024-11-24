@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [userNotes, setUserNotes] = useState([]);
   const [addNotes, setAddNotes] = useState(false);
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
   const token = localStorage.getItem("token");
+
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/notes/", {
@@ -21,6 +25,30 @@ export default function Home() {
   //   console.log("222")
   //   console.log(userNotes);
   // }, [userNotes]);
+
+  const handleTitle = (e) => {
+
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    axios
+    .post(
+      "http://localhost:5000/api/notes/",
+      {
+        title: title,
+        description: description,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
+  }
   return (
     <>
       <div class="fixed bottom-7 right-7 flex items-center justify-center">
@@ -85,6 +113,7 @@ export default function Home() {
                   type="text"
                   placeholder="Enter the title"
                   className="input input-bordered w-full"
+                  onChange={(e) => {setTitle(e.target.value)}}
                   required
                 />
               </div>
@@ -95,10 +124,12 @@ export default function Home() {
                 <textarea
                   className="textarea textarea-bordered"
                   placeholder="Enter the description"
+                  maxLength={350}
+                  onChange={(e) => {setDescription(e.target.value)}}
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn btn-neutral w-full">
+              <button type="submit" className="btn btn-neutral w-full" onClick={handleSubmit}>
                 Add
               </button>
             </form>
