@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [userNotes, setUserNotes] = useState([]);
   const [addNotes, setAddNotes] = useState(false);
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [deleteNoteId, setDeleteNoteId] = useState("");
   const token = localStorage.getItem("token");
-
 
   useEffect(() => {
     axios
@@ -26,29 +26,47 @@ export default function Home() {
   //   console.log(userNotes);
   // }, [userNotes]);
 
-  const handleTitle = (e) => {
-
-  }
+  const handleTitle = (e) => {};
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     axios
-    .post(
-      "http://localhost:5000/api/notes/",
-      {
-        title: title,
-        description: description,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      .post(
+        "http://localhost:5000/api/notes/",
+        {
+          title: title,
+          description: description,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
+  };
+
+  const handleDeleteNote = (id) => {
+    // console.log(id)
+    try {
+      const response = axios
+        .delete(`http://localhost:5000/api/notes/${id}`,{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err));
+
+      if(response.status === 200){
+        setUserNotes(userNotes.filter(note => note._id !== id))
       }
-    )
-    .then(res => console.log(res))
-    .catch(err => console.error(err));
-  }
+    } catch (err) {
+      console.error("Error deleting note:", err);
+    }
+  };
   return (
     <>
       <div class="fixed bottom-7 right-7 flex items-center justify-center">
@@ -62,7 +80,7 @@ export default function Home() {
       {!addNotes ? (
         <div className="flex flex-wrap gap-4 p-5">
           {userNotes.map((note) => (
-            <div key={note.id} className="card bg-purple-200 w-96 shadow-md">
+            <div key={note._id} className="card bg-purple-200 w-96 shadow-md">
               <div className="card-body">
                 <h1 className="card-title">
                   {note.title}{" "}
@@ -73,7 +91,14 @@ export default function Home() {
                         <a>Edit</a>
                       </li>
                       <li>
-                        <a>Delete note</a>
+                        <button
+                          onClick={() => {
+                            setDeleteNoteId(note._id);
+                            handleDeleteNote(note._id);
+                          }}
+                        >
+                          Delete note
+                        </button>
                       </li>
                     </ul>
                   </details>
@@ -87,7 +112,10 @@ export default function Home() {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
           <div className="card w-96 bg-white shadow-lg p-6">
             <div className="flex items-center justify-end">
-              <button className="btn btn-circle btn-sm btn-neutral flex" onClick={() => setAddNotes(!addNotes)}>
+              <button
+                className="btn btn-circle btn-sm btn-neutral flex"
+                onClick={() => setAddNotes(!addNotes)}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-4 w-4"
@@ -113,7 +141,9 @@ export default function Home() {
                   type="text"
                   placeholder="Enter the title"
                   className="input input-bordered w-full"
-                  onChange={(e) => {setTitle(e.target.value)}}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
                   required
                 />
               </div>
@@ -125,11 +155,17 @@ export default function Home() {
                   className="textarea textarea-bordered"
                   placeholder="Enter the description"
                   maxLength={350}
-                  onChange={(e) => {setDescription(e.target.value)}}
+                  onChange={(e) => {
+                    setDescription(e.target.value);
+                  }}
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn btn-neutral w-full" onClick={handleSubmit}>
+              <button
+                type="submit"
+                className="btn btn-neutral w-full"
+                onClick={handleSubmit}
+              >
                 Add
               </button>
             </form>
