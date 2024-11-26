@@ -1,0 +1,7 @@
+1. If no notes present. display the message. (PENDING)
+2. Sign up validation. (PENDING)
+3. Sign in validation. (PENDING)
+
+
+Very Important
+1. for example i am in test 1 account and if i try to delete a note that present in test 2 account. the note is deleted.
