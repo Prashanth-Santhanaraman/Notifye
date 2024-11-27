@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast,{ Toaster } from "react-hot-toast";
+import { formatDate } from "../utils/dateUtils";
 export default function Home() {
   const [userNotes, setUserNotes] = useState([]);
   const [addNotes, setAddNotes] = useState(false);
@@ -25,6 +27,7 @@ export default function Home() {
       .then((res) => {
         // console.log(res.data)
         setUserNotes(res.data.notes);
+        toast.success("This is a success message!");
       })
       .catch((err) => console.error(err));
   }, []);
@@ -51,8 +54,13 @@ export default function Home() {
           },
         }
       )
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+      .then((res) => {
+        console.log(res)
+        toast.success("Added New Note !");
+      })
+      .catch((err) => {console.error(err)
+        toast.error("Error in Adding New Note !");
+      });
   };
 
   const handleDeleteNote = (id) => {
@@ -97,12 +105,15 @@ export default function Home() {
   };
   return (
     <>
+      <div>
+      <Toaster position="top-center" />
+      </div>
       <div class="fixed bottom-7 right-7 flex items-center justify-center">
         <button
           className="btn btn-square btn-md btn-square"
           onClick={() => {
             setEditButton(false);
-            setAddNotes(!addNotes)
+            setAddNotes(!addNotes);
           }}
         >
           +
@@ -153,6 +164,8 @@ export default function Home() {
                   </div>
                 </div>
                 <p>{note.description}</p>
+                <p className="text-xs mt-2 font-bold">Created at: {formatDate(note.createdAt)}</p>
+                {/* <p className="text-xs font-bold">Updated at: {formatDate(note.updatedAt)}</p> */}
               </div>
             </div>
           ))}
