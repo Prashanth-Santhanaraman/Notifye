@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import toast,{ Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { formatDate } from "../utils/dateUtils";
 export default function Home() {
   const [userNotes, setUserNotes] = useState([]);
@@ -55,32 +55,34 @@ export default function Home() {
         }
       )
       .then((res) => {
-        console.log(res)
+        console.log(res);
         toast.success("Added New Note !");
+        setUserNotes((prevNotes) => [...prevNotes, res.data]);
+        setAddNotes(!addNotes);
       })
-      .catch((err) => {console.error(err)
+      .catch((err) => {
+        console.error(err);
         toast.error("Error in Adding New Note !");
       });
   };
 
   const handleDeleteNote = (id) => {
-    // console.log(id)
-    try {
-      const response = axios
-        .delete(`http://localhost:5000/api/notes/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => console.log(res))
-        .catch((err) => console.error(err));
-
-      if (response.status === 200) {
-        setUserNotes(userNotes.filter((note) => note._id !== id));
-      }
-    } catch (err) {
-      console.error("Error deleting note:", err);
-    }
+    axios
+      .delete(`http://localhost:5000/api/notes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Deleted the Note!");
+          setUserNotes(userNotes.filter((note) => note._id !== id));
+        }
+      })
+      .catch((err) => {
+        console.error("Error deleting note:", err);
+        toast.error("Failed to delete the note!");
+      });
   };
 
   const handleUpdateNote = (e) => {
@@ -99,14 +101,23 @@ export default function Home() {
             },
           }
         )
-        .then((response) => console.log(response.data))
+        .then((response) => {
+          console.log(response.data);
+          toast.success("Updated the Note!");
+          setAddNotes(!addNotes);
+          setUserNotes((prevNotes) =>
+            prevNotes.map((note) =>
+              note._id === editId ? { ...note, ...response.data } : note
+            )
+          );
+        })
         .catch((error) => console.error(error));
     } catch (err) {}
   };
   return (
     <>
       <div>
-      <Toaster position="top-center" />
+        <Toaster position="top-center" />
       </div>
       <div class="fixed bottom-7 right-7 flex items-center justify-center">
         <button
@@ -120,7 +131,7 @@ export default function Home() {
         </button>
       </div>
       {!addNotes ? (
-        <div className="flex flex-wrap gap-4 p-5">
+        <div className="flex flex-wrap gap-4 p-[20px] m-[20px]">
           {userNotes.map((note) => (
             <div
               key={note._id}
@@ -164,7 +175,9 @@ export default function Home() {
                   </div>
                 </div>
                 <p>{note.description}</p>
-                <p className="text-xs mt-2 font-bold">Created at: {formatDate(note.createdAt)}</p>
+                <p className="text-xs mt-2 font-bold">
+                  Created at: {formatDate(note.createdAt)}
+                </p>
                 {/* <p className="text-xs font-bold">Updated at: {formatDate(note.updatedAt)}</p> */}
               </div>
             </div>
