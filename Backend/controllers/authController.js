@@ -13,7 +13,8 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: "email already exists !" });
     }
     const hashedpassword = await bcrypt.hash(password, 10);
-    const newuser = await users.create({ name, email, password:hashedpassword });
+    const lowerEmail = email.toLowerCase()
+    const newuser = await users.create({ name, email:lowerEmail, password:hashedpassword });
     if (newuser) {
       return res.status(200).json(newuser);
     }
@@ -33,7 +34,8 @@ const login = async (req, res) => {
   }
 
   try {
-    const userDetail = await users.findOne({ email });
+    const smallCaseEmail = email.toLowerCase()
+    const userDetail = await users.findOne({ email:smallCaseEmail });
     if(userDetail && await bcrypt.compare(password,userDetail.password)){
         const token = jwt.sign({id:userDetail._id},process.env.JWT_SECRET)
         res.setHeader("Authorization", `Bearer ${token}`);
