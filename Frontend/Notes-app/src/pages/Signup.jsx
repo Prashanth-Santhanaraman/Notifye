@@ -8,12 +8,41 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [showPassword,setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const navigate = useNavigate();
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSignup = (e) => {
     e.preventDefault();
+    if (name.length === 0) {
+      setNameError(true);
+    } else {
+      setNameError(false);
+    }
+
+    if (email.length === 0) {
+      setEmailError(true);
+    }
+
+    if (password.length === 0) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+
+    if (!isValidEmail(email)) {
+      setEmailError(true);
+      return;
+    }
+    setEmailError(false);
     if (!name || !email || !password) {
       return "Fill all details";
     }
@@ -55,10 +84,23 @@ export default function Signup() {
               <input
                 type="text"
                 placeholder="Enter your name"
-                className="input input-bordered w-full"
+                className={`input input-bordered w-full ${
+                  nameError ? "input-error" : ""
+                }`}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
+              {nameError ? (
+                <>
+                  <div className="label">
+                    <span className="label-text-alt text-red-600">
+                      Enter name
+                    </span>
+                  </div>
+                </>
+              ) : (
+                " "
+              )}
             </div>
             <div className="form-control mb-4">
               <label className="label">
@@ -67,22 +109,48 @@ export default function Signup() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="input input-bordered w-full"
+                className={`input input-bordered w-full ${
+                  emailError ? "input-error" : ""
+                }`}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+              {emailError ? (
+                <>
+                  <div className="label">
+                    <span className="label-text-alt text-red-600">
+                      Enter valid email
+                    </span>
+                  </div>
+                </>
+              ) : (
+                " "
+              )}
             </div>
             <div className="form-control mb-6">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
               <input
-                type={!showPassword?"password":"text"}
+                type={!showPassword ? "password" : "text"}
                 placeholder="Enter your password"
-                className="input input-bordered w-full"
+                className={`input input-bordered w-full ${
+                  passwordError ? "input-error" : ""
+                }`}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              {passwordError ? (
+                <>
+                  <div className="label">
+                    <span className="label-text-alt text-red-600">
+                      Enter password
+                    </span>
+                  </div>
+                </>
+              ) : (
+                " "
+              )}
               <label className="label cursor-pointer flex items-center">
                 <input
                   type="checkbox"
