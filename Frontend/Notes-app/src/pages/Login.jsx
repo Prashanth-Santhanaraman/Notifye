@@ -3,6 +3,8 @@ import "../index.css";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {login,logout} from "../store/authSlice"
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,6 +14,8 @@ export default function Login() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+ 
   //Handling Login
 
   const isValidEmail = (email) => {
@@ -28,9 +32,8 @@ export default function Login() {
 
     if (password.length === 0) {
       setPasswordError(true);
-    }
-    else{
-      setPasswordError(false)
+    } else {
+      setPasswordError(false);
     }
 
     if (!isValidEmail(email)) {
@@ -49,7 +52,9 @@ export default function Login() {
       })
       .then((response) => {
         console.log("Login successful", response.data);
+        dispatch(login(response.data.token));
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("isLoggedIn","true")
         navigate("/home");
       })
       .catch((error) => {
