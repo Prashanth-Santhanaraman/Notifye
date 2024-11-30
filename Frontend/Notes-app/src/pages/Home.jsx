@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { formatDate } from "../utils/dateUtils";
+import { useSelector } from "react-redux";
 export default function Home() {
   const [userNotes, setUserNotes] = useState([]);
   const [addNotes, setAddNotes] = useState(false);
@@ -15,7 +16,8 @@ export default function Home() {
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [editId, setEditId] = useState("");
-  const token = localStorage.getItem("token");
+  const [searchValue, setSearchValue] = useState("")
+  const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
   useEffect(() => {
     axios
@@ -114,6 +116,19 @@ export default function Home() {
         .catch((error) => console.error(error));
     } catch (err) {}
   };
+
+  const handleSearch = () => {
+    console.log(searchValue)
+    if (searchValue.trim().length === 0) {
+      alert("enter any character to search")
+      toast.error("Enter any character")
+      return
+    }
+    const filteredNotes = userNotes.filter((note) =>
+      note.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setUserNotes(filteredNotes);
+  }
   return (
     <>
       <div>
@@ -131,7 +146,25 @@ export default function Home() {
         </button>
       </div>
       {!addNotes ? (
-        <div className="flex flex-wrap gap-4 p-[20px] m-[20px]">
+        <div className="join flex justify-center mt-4">
+          <div>
+            <div>
+              <input
+                className="input input-bordered join-item"
+                placeholder="Search Notes"
+                onChange={(e) => {setSearchValue(e.target.value)}}
+              />
+            </div>
+          </div>
+          <div className="indicator">
+            <button className="btn join-item" onClick={handleSearch}>Search</button>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
+      {!addNotes ? (
+        <div className="flex flex-wrap gap-4 p-[20px] mx-[20px] justify-center ">
           {userNotes.map((note) => (
             <div
               key={note._id}
