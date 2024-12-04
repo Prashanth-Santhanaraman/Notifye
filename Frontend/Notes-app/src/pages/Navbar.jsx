@@ -6,7 +6,7 @@ export default function Navbar({}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const loggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const localLoggedIn = localStorage.getItem("isLoggedIn") === 'true'
+  const localLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -21,7 +21,7 @@ export default function Navbar({}) {
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.removeItem("token");
-    localStorage.setItem("isLoggedIn","false")
+    localStorage.setItem("isLoggedIn", "false");
     setIsLoggedIn(false);
     navigate("/");
   };
@@ -30,7 +30,7 @@ export default function Navbar({}) {
     <>
       <div className="navbar bg-neutral px-[20px] text-neutral-content">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">Notes</a>
+          <button className="btn btn-ghost text-xl" onClick={() => {navigate("/home")}}>Notes</button>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
@@ -49,11 +49,34 @@ export default function Navbar({}) {
               </>
             ) : (
               <>
-                <li>
-                  <button onClick={handleLogout} className="btn btn-nuetral">
+                <ul>
+                  {/* <button onClick={handleLogout} className="btn btn-nuetral">
                     Logout
-                  </button>
-                </li>
+                  </button> */}
+                  <div class="dropdown dropdown-end">
+                    <label
+                      tabindex="0"
+                      role="button"
+                      class="avatar placeholder cursor-pointer"
+                    >
+                      <div class="bg-white text-success-content w-12 rounded-full">
+                        <span>ava</span>
+                      </div>
+                    </label>
+
+                    <ul
+                      tabindex="0"
+                      class="dropdown-content menu bg-white text-black rounded-box z-[1] w-52 p-2 shadow"
+                    >
+                      <li>
+                        <button onClick={() => {navigate("/home/settings")}}>Settings</button>
+                      </li>
+                      <li>
+                        <button className="text-red-500 font-semibold" onClick={handleLogout}>Logout</button>
+                      </li>
+                    </ul>
+                  </div>
+                </ul>
               </>
             )}
           </ul>
