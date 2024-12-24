@@ -30,7 +30,7 @@ export default function Navbar({}) {
     <>
       <div className="navbar bg-neutral px-[20px] text-neutral-content">
         <div className="flex-1">
-          <button className="btn btn-ghost text-xl" onClick={() => {navigate("/home")}}>Notes</button>
+          <button className="btn btn-ghost text-xl" onClick={() => {navigate("/home")}}>Notifye</button>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
@@ -60,7 +60,7 @@ export default function Navbar({}) {
                       class="avatar placeholder cursor-pointer"
                     >
                       <div class="bg-white text-success-content w-12 rounded-full">
-                        <span>ava</span>
+                        <span>User</span>
                       </div>
                     </label>
 

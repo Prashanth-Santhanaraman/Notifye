@@ -151,13 +151,13 @@ export default function Signup() {
               ) : (
                 " "
               )}
-              <label className="label cursor-pointer flex items-center">
+              <label className="label cursor-pointer w-[150px] mt-2">
                 <input
                   type="checkbox"
                   className="checkbox checkbox-sm"
                   onChange={() => setShowPassword(!showPassword)}
                 />
-                <span className="">Show Password</span>
+                <span className="text-sm">Show Password</span>
               </label>
             </div>
             <button

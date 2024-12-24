@@ -134,13 +134,13 @@ export default function Login() {
               ) : (
                 " "
               )}
-              <label className="label cursor-pointer">
+              <label className="label cursor-pointer w-[150px]">
                 <input
                   type="checkbox"
                   className="checkbox checkbox-sm"
                   onChange={() => setShowPassword(!showPassword)}
                 />
-                <span className="label ml-0">Show Password</span>
+                <span className="label ml-0 text-sm">Show Password</span>
               </label>
             </div>
             <button

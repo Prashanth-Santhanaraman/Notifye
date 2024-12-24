@@ -6,7 +6,7 @@ export const formatDate = (dbDate) => {
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-    hour12:true,
-  }
-  return date.toLocaleString("en-GB", options).replace(","," at");
+    hour12: true,
+  };
+  return date.toLocaleString("en-GB", options).replace(",", " at");
 };

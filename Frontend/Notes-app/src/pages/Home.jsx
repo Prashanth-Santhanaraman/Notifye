@@ -16,8 +16,9 @@ export default function Home() {
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [editId, setEditId] = useState("");
-  const [searchValue, setSearchValue] = useState("")
-  const token = useSelector((state) => state.auth.token) || localStorage.getItem("token");
+  const [searchValue, setSearchValue] = useState("");
+  const token =
+    useSelector((state) => state.auth.token) || localStorage.getItem("token");
 
   useEffect(() => {
     axios
@@ -42,7 +43,18 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    if(title.trim().length === 0 && description.trim().length === 0){
+      toast.error("Enter title and description")
+      return
+    }
+    if(title.trim().length === 0){
+      toast.error("Enter title")
+      return
+    }
+    if(description.trim().length === 0){
+      toast.error("Enter description")
+      return
+    }
     axios
       .post(
         "http://localhost:5000/api/notes/",
@@ -89,6 +101,18 @@ export default function Home() {
 
   const handleUpdateNote = (e) => {
     e.preventDefault();
+    if(editTitle.trim().length === 0 && editDescription.trim().length === 0){
+      toast.error("Enter title and description")
+      return
+    }
+    if(editTitle.trim().length === 0){
+      toast.error("Enter Title")
+      return
+    }
+    if(editDescription.trim().length === 0){
+      toast.error("Enter Description")
+      return
+    }
     try {
       axios
         .patch(
@@ -118,17 +142,17 @@ export default function Home() {
   };
 
   const handleSearch = () => {
-    console.log(searchValue)
+    console.log(searchValue);
     if (searchValue.trim().length === 0) {
-      alert("enter any character to search")
-      toast.error("Enter any character")
-      return
+      alert("enter any character to search");
+      toast.error("Enter any character");
+      return;
     }
     const filteredNotes = userNotes.filter((note) =>
       note.title.toLowerCase().includes(searchValue.toLowerCase())
     );
     setUserNotes(filteredNotes);
-  }
+  };
   return (
     <>
       <div>
@@ -152,12 +176,21 @@ export default function Home() {
               <input
                 className="input input-bordered join-item"
                 placeholder="Search Notes"
-                onChange={(e) => {setSearchValue(e.target.value)}}
+                onChange={(e) => {
+                  setSearchValue(e.target.value);
+                }}
               />
             </div>
           </div>
           <div className="indicator">
-            <button className="btn join-item" onClick={handleSearch}>Search</button>
+            <button className="btn join-item" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+          <div className="ml-2">
+            <button className="btn join-item" onClick={handleSearch}>
+              Reset Search
+            </button>
           </div>
         </div>
       ) : (
@@ -200,6 +233,7 @@ export default function Home() {
                             setDeleteNoteId(note._id);
                             handleDeleteNote(note._id);
                           }}
+                          className="text-red-500"
                         >
                           Delete Note
                         </button>
