@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import {login,logout} from "../store/authSlice";
 import axios from "axios";
 
 export default function Settings() {
@@ -11,9 +13,11 @@ export default function Settings() {
   const [newPassword, setNewPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
+  const [checkBoxStatus, setCheckBoxStatus] = useState(false)
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handlePasswordChange = () => {
     setPasswordChange(true);
     setDeleteAccount(false);
@@ -41,6 +45,7 @@ export default function Settings() {
         console.log(res);
         toast.success("Password Changed Successfully")
         setCurrentPassword("");
+
         setNewPassword("");
       })
       .catch((err) => {
@@ -48,6 +53,33 @@ export default function Settings() {
         toast.error(err.response.data.message)
       });
   };
+  const handleDelete = (e) =>{
+    e.preventDefault();
+    if(!checkBoxStatus){
+      toast.error("Please acknowledge by clicking the checkbox")
+      return;
+    }
+    axios
+      .post("http://localhost:5000/api/account/deleteAccount",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(res => {
+        toast.success("Successfully Deleted the Account !")
+        localStorage.removeItem("token")
+        localStorage.setItem("isLoggedIn", "false");
+        dispatch(logout())
+        navigate("/")
+      })
+      .catch(err => {
+        console.error(err)
+        toast.error("Something went wrong on deleting the account !")
+      });
+  }
   return (
     <>
       <div>
@@ -80,23 +112,28 @@ export default function Settings() {
             </li>
           </ul>
         </div>
-        {/* <div class="drawer md:hidden">
+        <div class="drawer md:hidden">
     <input id="mobile-sidebar" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col">
-      <label for="mobile-sidebar" class="btn btn-neutral drawer-button m-4">Menu</label>
-
-      <div class="flex-grow p-4">Main Content</div>
+      <label for="mobile-sidebar" class="btn btn-neutral drawer-button m-4">=</label>
     </div>
     <div class="drawer-side">
       <label for="mobile-sidebar" class="drawer-overlay"></label>
       <ul class="menu p-4 bg-neutral text-neutral-content w-64">
-        <li><a>Dashboard</a></li>
-        <li><a>Profile</a></li>
-        <li><a>Settings</a></li>
-        <li><a>Logout</a></li>
+      <li>
+              <button onClick={handlePasswordChange}>Change Password</button>
+            </li>
+            <li>
+              <a
+                className="text-red-500 font-semibold"
+                onClick={handleDeleteAccount}
+              >
+                Delete Account
+              </a>
+            </li>
       </ul>
     </div>
-  </div> */}
+  </div>
         {!deleteAccount ? (
           <div class="flex-grow p-4 bg-base-100">
             <h1 class="text-2xl font-bold mb-4">Change Password</h1>
@@ -200,13 +237,13 @@ export default function Settings() {
                 account cannot be recovered.
               </p>
               <label className="form-control flex flex-row gap-2 mt-4">
-                <input type="checkbox" className="checkbox" />
+                <input type="checkbox" className="checkbox" onChange={(e) => setCheckBoxStatus(e.target.checked)}/>
                 <span className="label-text font-medium">
                   I acknowledge and accept the terms and conditions stated
                   above.
                 </span>
               </label>
-              <button className="btn btn-error w-[80px] text-white mt-4">
+              <button className="btn btn-error w-[80px] text-white mt-4" onClick={handleDelete}>
                 Delete
               </button>
             </div>
