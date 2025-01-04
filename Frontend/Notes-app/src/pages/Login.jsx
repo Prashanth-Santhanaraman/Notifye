@@ -151,6 +151,7 @@ export default function Login() {
               Login
             </button>
           </form>
+          <p className="text-sm text-center mt-2">Don't have an account? <a className="link" href="/signup">Click here</a></p>
         </div>
       </div>
     </>

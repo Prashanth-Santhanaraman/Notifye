@@ -30,7 +30,7 @@ export default function Home() {
       .then((res) => {
         // console.log(res.data)
         setUserNotes(res.data.notes);
-        toast.success("This is a success message!");
+        // toast.success("This is a success message!");
       })
       .catch((err) => console.error(err));
   }, []);
