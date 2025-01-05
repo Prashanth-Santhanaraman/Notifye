@@ -1,9 +1,5 @@
 {
-  "routes": [
-    { "src": "/signup", "dest": "/" },
-    { "src": "/home", "dest": "/" },
-    { "src": "/home/settings", "dest": "/" },
-    { "src": "/", "dest": "/" },
-    { "src": "/*", "dest": "/" }
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
