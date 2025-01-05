@@ -1,0 +1,17 @@
+services:
+  - type: static
+    name: my-react-app
+    env: static
+    buildCommand: npm run build
+    publishDirectory: ./build
+    routes:
+      - src: "/signup"
+        dest: "/index.html"
+      - src: "/home"
+        dest: "/index.html"
+      - src: "/home/settings"
+        dest: "/index.html"
+      - src: "/"
+        dest: "/index.html"
+      - src: "/*"
+        dest: "/index.html"
