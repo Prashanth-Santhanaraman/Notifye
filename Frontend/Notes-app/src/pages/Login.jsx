@@ -4,7 +4,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {login,logout} from "../store/authSlice"
+import { login, logout } from "../store/authSlice";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
- 
+
   //Handling Login
 
   const isValidEmail = (email) => {
@@ -46,7 +46,7 @@ export default function Login() {
       toast.error("Email or Password is missing");
     }
     axios
-      .post("http://localhost:5000/api/auth/login", {
+      .post(`${import.meta.env.BackendLink}/api/auth/login`, {
         email: email,
         password: password,
       })
@@ -54,7 +54,7 @@ export default function Login() {
         console.log("Login successful", response.data);
         dispatch(login(response.data.token));
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("isLoggedIn","true")
+        localStorage.setItem("isLoggedIn", "true");
         navigate("/home");
       })
       .catch((error) => {
@@ -151,7 +151,12 @@ export default function Login() {
               Login
             </button>
           </form>
-          <p className="text-sm text-center mt-2">Don't have an account? <a className="link" href="/signup">Click here</a></p>
+          <p className="text-sm text-center mt-2">
+            Don't have an account?{" "}
+            <a className="link" href="/signup">
+              Click here
+            </a>
+          </p>
         </div>
       </div>
     </>
