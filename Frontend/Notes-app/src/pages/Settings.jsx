@@ -3,7 +3,7 @@ import { useState } from "react";
 // import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
-import {login,logout} from "../store/authSlice";
+import { login, logout } from "../store/authSlice";
 import axios from "axios";
 
 export default function Settings() {
@@ -13,7 +13,7 @@ export default function Settings() {
   const [newPassword, setNewPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [checkBoxStatus, setCheckBoxStatus] = useState(false)
+  const [checkBoxStatus, setCheckBoxStatus] = useState(false);
   const token =
     useSelector((state) => state.auth.token) || localStorage.getItem("token");
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function Settings() {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:5000/api/account/changePassword",
+        `${import.meta.env.BackendLink}/api/account/changePassword`,
         {
           currentPassword: currentPassword,
           newPassword: newPassword,
@@ -43,24 +43,25 @@ export default function Settings() {
       )
       .then((res) => {
         console.log(res);
-        toast.success("Password Changed Successfully")
+        toast.success("Password Changed Successfully");
         setCurrentPassword("");
 
         setNewPassword("");
       })
       .catch((err) => {
-        console.error(err)
-        toast.error(err.response.data.message)
+        console.error(err);
+        toast.error(err.response.data.message);
       });
   };
-  const handleDelete = (e) =>{
+  const handleDelete = (e) => {
     e.preventDefault();
-    if(!checkBoxStatus){
-      toast.error("Please acknowledge by clicking the checkbox")
+    if (!checkBoxStatus) {
+      toast.error("Please acknowledge by clicking the checkbox");
       return;
     }
     axios
-      .post("http://localhost:5000/api/account/deleteAccount",
+      .post(
+        `${import.meta.env.BackendLink}/api/account/deleteAccount`,
         {},
         {
           headers: {
@@ -68,18 +69,18 @@ export default function Settings() {
           },
         }
       )
-      .then(res => {
-        toast.success("Successfully Deleted the Account !")
-        localStorage.removeItem("token")
+      .then((res) => {
+        toast.success("Successfully Deleted the Account !");
+        localStorage.removeItem("token");
         localStorage.setItem("isLoggedIn", "false");
-        dispatch(logout())
-        navigate("/")
+        dispatch(logout());
+        navigate("/");
       })
-      .catch(err => {
-        console.error(err)
-        toast.error("Something went wrong on deleting the account !")
+      .catch((err) => {
+        console.error(err);
+        toast.error("Something went wrong on deleting the account !");
       });
-  }
+  };
   return (
     <>
       <div>
@@ -113,27 +114,32 @@ export default function Settings() {
           </ul>
         </div>
         <div class="drawer md:hidden">
-    <input id="mobile-sidebar" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col">
-      <label for="mobile-sidebar" class="btn btn-neutral drawer-button m-4">=</label>
-    </div>
-    <div class="drawer-side">
-      <label for="mobile-sidebar" class="drawer-overlay"></label>
-      <ul class="menu p-4 bg-neutral text-neutral-content w-64">
-      <li>
-              <button onClick={handlePasswordChange}>Change Password</button>
-            </li>
-            <li>
-              <a
-                className="text-red-500 font-semibold"
-                onClick={handleDeleteAccount}
-              >
-                Delete Account
-              </a>
-            </li>
-      </ul>
-    </div>
-  </div>
+          <input id="mobile-sidebar" type="checkbox" class="drawer-toggle" />
+          <div class="drawer-content flex flex-col">
+            <label
+              for="mobile-sidebar"
+              class="btn btn-neutral drawer-button m-4"
+            >
+              =
+            </label>
+          </div>
+          <div class="drawer-side">
+            <label for="mobile-sidebar" class="drawer-overlay"></label>
+            <ul class="menu p-4 bg-neutral text-neutral-content w-64">
+              <li>
+                <button onClick={handlePasswordChange}>Change Password</button>
+              </li>
+              <li>
+                <a
+                  className="text-red-500 font-semibold"
+                  onClick={handleDeleteAccount}
+                >
+                  Delete Account
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
         {!deleteAccount ? (
           <div class="flex-grow p-4 bg-base-100">
             <h1 class="text-2xl font-bold mb-4">Change Password</h1>
@@ -237,13 +243,20 @@ export default function Settings() {
                 account cannot be recovered.
               </p>
               <label className="form-control flex flex-row gap-2 mt-4">
-                <input type="checkbox" className="checkbox" onChange={(e) => setCheckBoxStatus(e.target.checked)}/>
+                <input
+                  type="checkbox"
+                  className="checkbox"
+                  onChange={(e) => setCheckBoxStatus(e.target.checked)}
+                />
                 <span className="label-text font-medium">
                   I acknowledge and accept the terms and conditions stated
                   above.
                 </span>
               </label>
-              <button className="btn btn-error w-[80px] text-white mt-4" onClick={handleDelete}>
+              <button
+                className="btn btn-error w-[80px] text-white mt-4"
+                onClick={handleDelete}
+              >
                 Delete
               </button>
             </div>
