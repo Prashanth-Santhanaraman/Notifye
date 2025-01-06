@@ -14,7 +14,6 @@ export default function Signup() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const navigate = useNavigate();
-  
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -48,7 +47,7 @@ export default function Signup() {
       return "Fill all details";
     }
     axios
-      .post("http://localhost:5000/api/auth/signup", {
+      .post(`${import.meta.env.BackendLink}/api/auth/signup`, {
         name: name,
         email: email,
         password: password,
@@ -168,7 +167,12 @@ export default function Signup() {
               Sign Up
             </button>
           </form>
-          <p className="text-sm text-center mt-2">Already have an account? <a className="link" href="/">Click here</a></p>
+          <p className="text-sm text-center mt-2">
+            Already have an account?{" "}
+            <a className="link" href="/">
+              Click here
+            </a>
+          </p>
         </div>
       </div>
       {toastMessage && (
