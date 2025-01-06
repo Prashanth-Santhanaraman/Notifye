@@ -22,7 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/notes/", {
+      .get(`${import.meta.env.BackendLink}/api/notes/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,21 +43,21 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(title.trim().length === 0 && description.trim().length === 0){
-      toast.error("Enter title and description")
-      return
+    if (title.trim().length === 0 && description.trim().length === 0) {
+      toast.error("Enter title and description");
+      return;
     }
-    if(title.trim().length === 0){
-      toast.error("Enter title")
-      return
+    if (title.trim().length === 0) {
+      toast.error("Enter title");
+      return;
     }
-    if(description.trim().length === 0){
-      toast.error("Enter description")
-      return
+    if (description.trim().length === 0) {
+      toast.error("Enter description");
+      return;
     }
     axios
       .post(
-        "http://localhost:5000/api/notes/",
+        `${import.meta.env.BackendLink}/api/notes/`,
         {
           title: title,
           description: description,
@@ -82,7 +82,7 @@ export default function Home() {
 
   const handleDeleteNote = (id) => {
     axios
-      .delete(`http://localhost:5000/api/notes/${id}`, {
+      .delete(`${import.meta.env.BackendLink}/api/notes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -101,22 +101,22 @@ export default function Home() {
 
   const handleUpdateNote = (e) => {
     e.preventDefault();
-    if(editTitle.trim().length === 0 && editDescription.trim().length === 0){
-      toast.error("Enter title and description")
-      return
+    if (editTitle.trim().length === 0 && editDescription.trim().length === 0) {
+      toast.error("Enter title and description");
+      return;
     }
-    if(editTitle.trim().length === 0){
-      toast.error("Enter Title")
-      return
+    if (editTitle.trim().length === 0) {
+      toast.error("Enter Title");
+      return;
     }
-    if(editDescription.trim().length === 0){
-      toast.error("Enter Description")
-      return
+    if (editDescription.trim().length === 0) {
+      toast.error("Enter Description");
+      return;
     }
     try {
       axios
         .patch(
-          `http://localhost:5000/api/notes/${editId}`,
+          `${import.meta.env.BackendLink}/api/notes/${editId}`,
           {
             title: editTitle,
             description: editDescription,
