@@ -198,7 +198,7 @@ export default function Home() {
       )}
       {!addNotes ? (
         <div className="flex flex-wrap gap-4 p-[20px] mx-[20px] justify-center ">
-          {userNotes.map((note) => (
+          {userNotes && userNotes.map((note) => (
             <div
               key={note._id}
               className="card border border-slate-950 w-80 rounded-md"
