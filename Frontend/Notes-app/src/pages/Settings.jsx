@@ -30,7 +30,7 @@ export default function Settings() {
     e.preventDefault();
     axios
       .post(
-        `${import.meta.env.BackendLink}/api/account/changePassword`,
+        `${import.meta.env.VITE_BACKENDLINK}/api/account/changePassword`,
         {
           currentPassword: currentPassword,
           newPassword: newPassword,
@@ -61,7 +61,7 @@ export default function Settings() {
     }
     axios
       .post(
-        `${import.meta.env.BackendLink}/api/account/deleteAccount`,
+        `${import.meta.env.VITE_BACKENDLINK}/api/account/deleteAccount`,
         {},
         {
           headers: {
