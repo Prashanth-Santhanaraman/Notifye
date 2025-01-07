@@ -22,7 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.BackendLink}/api/notes/`, {
+      .get(`${import.meta.env.VITE_BACKENDLINK}/api/notes/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,7 +57,7 @@ export default function Home() {
     }
     axios
       .post(
-        `${import.meta.env.BackendLink}/api/notes/`,
+        `${import.meta.env.VITE_BACKENDLINK}/api/notes/`,
         {
           title: title,
           description: description,
@@ -82,7 +82,7 @@ export default function Home() {
 
   const handleDeleteNote = (id) => {
     axios
-      .delete(`${import.meta.env.BackendLink}/api/notes/${id}`, {
+      .delete(`${import.meta.env.VITE_BACKENDLINK}/api/notes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -116,7 +116,7 @@ export default function Home() {
     try {
       axios
         .patch(
-          `${import.meta.env.BackendLink}/api/notes/${editId}`,
+          `${import.meta.env.VITE_BACKENDLINK}/api/notes/${editId}`,
           {
             title: editTitle,
             description: editDescription,
