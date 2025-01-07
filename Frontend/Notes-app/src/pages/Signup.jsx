@@ -47,7 +47,7 @@ export default function Signup() {
       return "Fill all details";
     }
     axios
-      .post(`${import.meta.env.BackendLink}/api/auth/signup`, {
+      .post(`${import.meta.env.VITE_BACKENDLINK}/api/auth/signup`, {
         name: name,
         email: email,
         password: password,
