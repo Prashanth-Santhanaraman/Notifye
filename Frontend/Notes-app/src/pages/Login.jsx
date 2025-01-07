@@ -46,7 +46,7 @@ export default function Login() {
       toast.error("Email or Password is missing");
     }
     axios
-      .post(`${import.meta.env.BackendLink}/api/auth/login`, {
+      .post(`${import.meta.env.VITE_BACKENDLINK}/api/auth/login`, {
         email: email,
         password: password,
       })
