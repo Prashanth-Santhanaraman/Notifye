@@ -6,11 +6,9 @@ Notifye is an easy-to-use note-taking app that helps you organize, manage, and s
 
 
 
-## Screenshots
+## Preview
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+https://github.com/user-attachments/assets/38c3d0ea-20ee-42d2-9c50-e6ddf7a467a1
 
 
 
