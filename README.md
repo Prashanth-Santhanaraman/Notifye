@@ -8,7 +8,7 @@ Notifye is an easy-to-use note-taking app that helps you organize, manage, and s
 
 ## Screenshots
 
-![App Screenshot](https://github.com/user-attachments/assets/f34d936c-c8cc-42d3-8c9b-241dff69f0fa)
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
@@ -22,7 +22,6 @@ Notifye is an easy-to-use note-taking app that helps you organize, manage, and s
 - Protected routes to keep your notes private.
 - Create, read, update, and delete notes.
 - Responsive design using Daisy UI.
-- Fast search functionality to quickly find your notes.
 - Simple and clean user interface.
 
 
@@ -31,7 +30,7 @@ Notifye is an easy-to-use note-taking app that helps you organize, manage, and s
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-repo/notifye.git
+git clone https://github.com/Prashanth-Santhanaraman/Notifye.git
 ```
 Navigate to the project backend directory:
 
@@ -47,8 +46,8 @@ npm install
 Set up the ```.env ``` file with the following:
 ```bash
 PORT=5000
-MONGO_URI=your-mongo-db-uri
 JWT_SECRET=your-secret-key
+PASSWORD=your-mongo-db-password
 ```
 
 Start the server:
@@ -85,6 +84,8 @@ npm run dev
 POST /api/auth/signup - Register a new user
 POST /api/auth/login - Authenticate user and return a token
 GET /api/auth/logout - Logout user
+POST /api/account/changePassword - Change account password
+POST /api/account/deleteAccount - Delete account
 ```
 
 #### Notes
