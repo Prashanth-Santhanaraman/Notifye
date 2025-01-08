@@ -36,6 +36,11 @@ const login = async (req, res) => {
   try {
     const smallCaseEmail = email.toLowerCase()
     const userDetail = await users.findOne({ email:smallCaseEmail });
+
+    if (!userDetail) {
+      // User not found (possibly deleted)
+      return res.status(400).json({ message: "Account not found" });
+    }
     if(userDetail && await bcrypt.compare(password,userDetail.password)){
         const token = jwt.sign({id:userDetail._id},process.env.JWT_SECRET)
         res.setHeader("Authorization", `Bearer ${token}`);

@@ -140,7 +140,12 @@ export default function Settings() {
             </ul>
           </div>
         </div>
-        {!deleteAccount ? (
+        {/* {!passwordChange&&!deleteAccount ? (<>
+        <h1 className="text-2xl font-semibold ml-[490px] flex items-center">Welcome to Settings</h1>
+        </>):("")} */}
+
+
+        {passwordChange ? (
           <div class="flex-grow p-4 bg-base-100">
             <h1 class="text-2xl font-bold mb-4">Change Password</h1>
             <div className="flex flex-col w-[500px] p-[20px]">
@@ -230,6 +235,10 @@ export default function Settings() {
             </div>
           </div>
         ) : (
+          ""
+        )}
+
+        {deleteAccount ? (
           <div class="flex-grow p-4 bg-base-100">
             <h1 class="text-2xl font-bold mb-4">Delete Account</h1>
 
@@ -261,6 +270,8 @@ export default function Settings() {
               </button>
             </div>
           </div>
+        ) : (
+          " "
         )}
       </div>
     </>

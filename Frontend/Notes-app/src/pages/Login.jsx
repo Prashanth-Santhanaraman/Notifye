@@ -58,8 +58,12 @@ export default function Login() {
         navigate("/home");
       })
       .catch((error) => {
-        // Handle error
-        toast.error("Invalid Credential");
+        if(error.message === "Request failed with status code 400"){
+            toast.error("Account not found");
+        }
+        if(error.message === "Request failed with status code 401"){
+          toast.error("Invalid credential");
+      }
         console.error(
           "Error during login",
           error.response ? error.response.data : error.message
