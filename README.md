@@ -19,6 +19,7 @@ https://github.com/user-attachments/assets/1705e222-6e6c-4bbd-8d22-44ab8ee90607
 - Secure login and logout using token-based authentication.
 - Protected routes to keep your notes private.
 - Create, read, update, and delete notes.
+- Uses bcrypt to hash passwords before storing, enhancing protection
 - Responsive design using Daisy UI.
 - Simple and clean user interface.
 
@@ -115,7 +116,4 @@ DELETE /api/notes/:id - Delete a note by ID
 
 
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
 
