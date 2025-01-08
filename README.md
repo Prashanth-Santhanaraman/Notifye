@@ -1,42 +1,121 @@
-# Notifye
 
-Notifye is a user-friendly note-taking application that helps you organize, manage, and search your notes with ease. It provides seamless navigation and features such as protected routes, dynamic dropdowns, and more.
+# Notifye - Notes Management App
 
----
+Notifye is an easy-to-use note-taking app that helps you organize, manage, and search your notes easily. It offers smooth navigation and features like secure routes, and more.
+
+
+
 
 ## Preview
 
-### Screenshots
-![Home Page](./path/to/homepage-screenshot.png)  
-![Notes Page](./path/to/notes-page-screenshot.png)  
-![Login Page](./path/to/login-page-screenshot.png)
+https://github.com/user-attachments/assets/38c3d0ea-20ee-42d2-9c50-e6ddf7a467a1
 
-### Video Preview
-[![Notifye Demo](./path/to/demo-thumbnail.png)](https://your-video-link.com)
 
----
 
-## Live Website
-Visit: [Notifye](https://your-website-link.com)
 
----
 
 ## Features
-- Secure login/logout with token-based authentication.
-- Protected routes to ensure privacy.
-- CRUD operations for notes.
-- Responsive design with Daisy UI integration.
-- Custom dropdowns and modals.
 
----
+- Secure login and logout using token-based authentication.
+- Protected routes to keep your notes private.
+- Create, read, update, and delete notes.
+- Responsive design using Daisy UI.
+- Simple and clean user interface.
 
-## Installation and Setup
 
-### Prerequisites
-- Node.js installed on your system.
-- MongoDB running locally or on the cloud.
+## Installation
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-repo/notifye.git
+Clone the repository:
+
+```bash
+git clone https://github.com/Prashanth-Santhanaraman/Notifye.git
+```
+Navigate to the project backend directory:
+
+```bash
+cd notifye
+cd Backend
+```
+Install dependencies:
+```bash
+npm install
+```
+
+Set up the ```.env ``` file with the following:
+```bash
+PORT=5000
+JWT_SECRET=your-secret-key
+PASSWORD=your-mongo-db-password
+```
+
+Start the server:
+```bash
+nodemon Server.js
+```
+Navigate to the project frontend directory:
+```bash
+cd..
+cd Frontend
+```
+Install dependencies:
+```bash
+npm install
+```
+
+Set up the ```.env ``` file with the following:
+```bash
+
+VITE_BACKEND=your-localhost-url
+```
+
+Start the React app:
+```bash
+npm run dev
+```
+
+
+## API Reference
+
+#### Authentication 
+
+```http
+POST /api/auth/signup - Register a new user
+POST /api/auth/login - Authenticate user and return a token
+GET /api/auth/logout - Logout user
+POST /api/account/changePassword - Change account password
+POST /api/account/deleteAccount - Delete account
+```
+
+#### Notes
+
+```http
+GET /api/notes - Get all notes
+POST /api/notes - Create a new note
+PATCH /api/notes/:id - Update a note by ID
+DELETE /api/notes/:id - Delete a note by ID
+```
+
+
+
+
+
+
+
+
+## Tech Stack
+
+**Client:** React, Redux, Tailwind CSS (DaisyUI)
+
+**Server:** Node, Express
+
+**Database:** MongoDB
+
+**Authentication:** JWT (JSON Web Tokens)
+
+
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
