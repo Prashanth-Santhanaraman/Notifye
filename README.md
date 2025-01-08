@@ -8,7 +8,7 @@ Notifye is an easy-to-use note-taking app that helps you organize, manage, and s
 
 ## Preview
 
-https://github.com/user-attachments/assets/38c3d0ea-20ee-42d2-9c50-e6ddf7a467a1
+https://github.com/user-attachments/assets/1705e222-6e6c-4bbd-8d22-44ab8ee90607
 
 
 
